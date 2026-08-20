@@ -1,0 +1,229 @@
+<html>
+<head>
+  <title></title>
+  <HTA:APPLICATION 
+      ID="app"
+      APPLICATIONNAME="FullscreenBlack"
+      BORDER="NONE"
+      CAPTION="NO"
+      SHOWINTASKBAR="NO"
+      SINGLEINSTANCE="YES"
+      WINDOWSTATE="NORMAL"
+      SCROLL="NO"
+      INNERBORDER="NO"
+  >
+</head>
+<body>
+<style>
+    body {
+      margin: 0;
+      background:black;
+      border: 5px solid white;
+      overflow:hidden;}
+    @font-face {
+      font-family: undertale;
+      src: url('hta/this.eot');
+      }
+    p{
+      font-family:undertale; 
+      font-size:30px; 
+      color:white; 
+      margin-top:30px; 
+      margin-left:280px
+    }
+    img{
+      position:absolute; 
+      width:250px; 
+      height:250px; 
+      bottom:15px; 
+      right:0px; 
+      left:20px;
+    }
+</style>
+<script language="VBScript">
+    Dim w, h, x, y
+    w = 1000
+    h = 300
+    x = (screen.availWidth  - w) / 2
+    y = (screen.availHeight - h) / 2
+    Window.ResizeTo w, h
+    Window.MoveTo x, y
+
+    Sub MakeTop()
+      Set shell = CreateObject("WScript.Shell")
+      shell.AppActivate document.title
+    End Sub
+
+    SetInterval "MakeTop", 200
+  </script>
+
+  <img id="sprite">
+  <p id="text"></p>
+
+  <script language="javascript">
+  function openLink(url) {
+    var shell = new ActiveXObject("WScript.Shell");
+    shell.Run(url);
+  }
+  function sleep(ms, callback) {
+    setTimeout(callback, ms);
+  }
+  //image function
+  function image(path) {
+    document.getElementById("sprite").src = path;
+  }
+  // message function
+  function type(message, speed, callback){
+    var i = 0;
+    var output = document.getElementById("text");
+    output.innerHTML = "";
+    function step() {
+        if (i < message.length) {
+            var char = message.charAt(i);
+            output.innerHTML += char === "\n" ? "<br>" : char;
+            i++;
+            var delay = speed;
+            if (".!?".indexOf(char) !== -1) { delay *= 6; } 
+            else if (",;:".indexOf(char) !== -1) { delay *= 4; }
+            setTimeout(step, delay);
+        } else {
+            if (callback) callback();
+        }
+    }
+    step();
+  }
+  // wait function
+  function Wait(callback) {
+    function onKey() { cleanup(); callback(); }
+    function onClick() { cleanup(); callback(); }
+    function cleanup() {
+        document.detachEvent("onkeydown", onKey);
+        document.detachEvent("onclick", onClick);
+    }
+    document.attachEvent("onkeydown", onKey);
+    document.attachEvent("onclick", onClick);
+  }
+// cleaning
+var seq = [];
+function next() {
+  if (seq.length > 0) {
+    var fn = seq.shift();
+    fn();
+  }
+}
+function Qtype(t, s){ seq.push(function(){ type(t, s, next); }); }
+function Qsleep(ms){ seq.push(function(){ sleep(ms, next); }); }
+function Qimage(p){ seq.push(function(){ image(p); next(); }); }
+function Qwait(){ seq.push(function(){ Wait(next); }); }
+function Qrun(fn){ seq.push(function(){ fn(); next(); }); }
+function Qlink(url){ seq.push(function(){ openLink(url); next(); }); }
+
+
+// Sequence controller
+function me(){
+  Qsleep(5000);
+  Qimage("hta/black.png");
+  Qtype("[Connection Established...]", 60);
+  Qsleep(1000);
+  Qtype("[Stabilizing sequences of executions...]", 55);
+  Qsleep(1000);
+  Qimage("hta/key.jpg");
+  Qtype("[Giving instructions towards user behind the screen.]", 45);
+  Qsleep(1000);
+  Qtype("This is a dialogue!\nYou can press any key to continue anytime when the dialogue ends!", 40);
+  Qwait();
+  Qtype("Excellent! Well then let's begin...", 35);
+  Qwait();
+  Qimage("hta/black.png");
+  Qtype("[Loading Codex message]", 45);
+  Qwait();
+  Qimage("hta/head0.png");
+  Qtype("* Hey...", 45);
+  Qwait();
+  Qimage("hta/head.png");
+  Qtype("* Uh well where should I begin...", 40);
+  Qwait();
+  Qimage("hta/head0.png");
+  Qtype("* Oh right",40);
+  Qsleep(500);
+  Qtype("* This whole virus thing uses 2 language of programming.", 40);
+  Qwait();
+  Qtype("* Visualization-based Security (VBS) and JavaScript.", 40);
+  Qwait();
+  Qtype("* While I am very new to JavaScript...\nIt's actually and suprisingly", 40);
+  Qsleep(1000);
+  Qtype("* Easy to understand. JavaScript is quite similar like C language", 40);
+  Qwait();
+  Qtype("* Can you believe that?\nI think that's why we learn C firsthand", 40);
+  Qwait();
+  Qimage("hta/head.png");
+  Qtype("* Alright... uh...", 40);
+  Qwait();
+  Qtype("* Let me just... put up a background song...", 40);
+  Qwait();
+  Qimage("hta/black.png")
+  Qtype("[Loading up Blossom Tea via user's default web]\n[Press any key when the song has play]",10);
+  Qlink("https://youtu.be/Ez_rIjExaHs?si=yPxXl9KVD3asJMTO");
+  Qwait();
+  Qimage("hta/head0.png");
+  Qtype("* The reason I want to make this silly little program virus is that...", 40);
+  Qwait();
+  Qtype("* Well I want to tell how I feel... again.", 40);
+  Qwait();
+  Qimage("hta/head.png");
+  Qtype("* You already know because that is already count as a confession...",40);
+  Qsleep(750);
+  Qimage("hta/head0.png");
+  Qtype("* Yes, I like you. But you already know and yet you stayed...", 40);
+  Qwait();
+  Qtype("* I found it weird really. And also intriguing. ", 40);
+  Qwait();
+  Qtype("* So why exactly? As a matter of fact it wouldn't matter much if you just let me be and away.", 40);
+  Qwait();
+  Qimage("hta/head.png");
+  Qtype("* It's not like you are feeling mutual.\n* Probably you might be just afraid...", 40);
+  Qwait();
+  Qtype("* ...I am questioning it... Because well I feel...", 40);
+  Qwait();
+  Qtype("* There's no point to it... So...", 40);
+  Qwait();
+  Qimage("hta/head0.png");
+  Qtype("* Sorry. this is killing the vibe of what I intend to do.", 35);
+  Qwait();
+  Qtype("* So yes, main reason is to 'confess' about what is happening", 40);
+  Qwait();
+  Qtype("* I have always wanted to do this.\n* Ever since highschool with that girl...", 40);
+  Qwait();
+  Qtype("* This took me 2 months to make btw\nWhich is worth it! It's a cool product in the end.", 40);
+  Qwait();
+  Qtype("* I'm inspired by it from undertale. Real deep lore game I like it!", 40);
+  Qwait();
+  Qimage("hta/head.png");
+  Qtype("* Ah right, I have promised to give something to you.", 40);
+  Qwait();
+  Qimage("hta/head0.png");
+  Qtype("* I will give you a flower and a letter at the end of this semester\n* If you would like...", 40);
+  Qwait();
+  Qtype("* Yeah I will just write you something. Because coding this dialogue in is...", 40);
+  Qsleep(1000);
+  Qimage("hta/head.png");
+  Qtype("* Ineffective. Not ideal...", 40);
+  Qwait();
+  Qimage("hta/head0.png");
+  Qtype("* Well then, we will soon reach the end of this program.", 40);
+  Qwait();
+  Qtype("* Thank you for playing my silly virus!", 40);
+  Qwait();
+  Qtype("* After this, I have one more song to share.\n* It's a gacha game song, Blue Archive.", 40);
+  Qwait();
+  Qtype("* Byeeee!!1!1!11!", 30);
+  Qwait();
+  Qlink("https://youtu.be/jtqBHTusvKQ?si=xvkwz9GPS1UDfej0");
+  Qrun(function(){ window.close(); });
+  next(); // start 
+}
+
+me(); //call seq controll
+</script>
+</body>
+</html>

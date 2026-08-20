@@ -1,0 +1,3 @@
+Please click RunMe.vbs
+
+(if you are curious of how the code work, right click the application and then open with notepad)
