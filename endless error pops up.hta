@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>Author's message</title>
+
+<HTA:APPLICATION
+    ID="app"
+    APPLICATIONNAME="Author's Message"
+    BORDER="NONE"
+    CAPTION="NO"
+    SHOWINTASKBAR="NO"
+    SINGLEINSTANCE="YES"
+    WINDOWSTATE="NORMAL"
+    SCROLL="NO"
+>
+
+<script language="VBScript">
+Sub HideWindow()
+    window.moveTo -5000, -5000
+    window.resizeTo 300, 200
+End Sub
+HideWindow  
+popupCount = 30
+Dim popups()
+ReDim popups(popupCount - 1)
+Sub SpawnPopups()
+    Randomize
+    For i = 0 To popupCount - 1
+        x = Int(Rnd * screen.availWidth  - 500)
+        y = Int(Rnd * screen.availHeight - 250)
+        popupCode = ""
+        popupCode = popupCode & "<html><head>"
+        popupCode = popupCode & "<hta:application "
+        popupCode = popupCode & "border='none' "
+        popupCode = popupCode & "caption='no' "
+        popupCode = popupCode & "showintaskbar='no' "
+        popupCode = popupCode & "scroll='no' "
+        popupCode = popupCode & "windowstate='normal' "
+        popupCode = popupCode & "></hta:application>"
+        popupCode = popupCode & "</head>"
+        popupCode = popupCode & "<body style='margin:0;background:white;"
+        popupCode = popupCode & "border:2px solid red;font-family:Segoe UI;font-size:12px;'>"
+        popupCode = popupCode & "<div style='padding:10px;'>"
+        popupCode = popupCode & "<b>Error:</b> Random failure #" & CInt(Rnd*9999) & "<br>"
+        popupCode = popupCode & "<i>Something went wrong.</i>"
+        popupCode = popupCode & "</div>"
+        popupCode = popupCode & "</body></html>"
+        Set sh = CreateObject("WScript.Shell")
+        sh.Run "powershell -c (New-Object Media.SoundPlayer 'C:\Windows\Media\Windows Ding.wav').PlaySync()", 0, False
+        Set pop = window.open("about:blank", "_blank", _
+        "width=400,height=180,left=" & x & ",top=" & y & _
+        ",border=0,resizable=no")
+        pop.document.write popupCode
+        pop.document.write popupCode
+        pop.document.write popupCode
+        Set popups(i) = pop
+    Next
+    window.setTimeout "CloseAll", 4000
+End Sub
+Sub CloseAll()
+    For i = 0 To popupCount - 1
+        On Error Resume Next
+        popups(i).close
+    Next
+End Sub
+window.setTimeout "SpawnPopups", 300
+</script>
+
+</head>
+
+
+</body>
+</html>
